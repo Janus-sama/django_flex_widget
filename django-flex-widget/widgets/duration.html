@@ -1,0 +1,10 @@
+<input class='form-control' {{ attrs }} type="number" name="{{ name }}_0" id="{{ widget.attrs.id }}_0" placeholder="Enter value" {% if widget.value %} value="{{ widget.value.days }}" {% endif %}>
+<select name="{{ name }}_1" id="{{ widget.attrs.id }}_1" {{ attrs }} class='form-select'>
+  {% for choice in widget.unit_choices %}
+    {% if widget.value and widget.value.unit == choice.0 %}
+      <option value="{{ choice.0 }}" selected>{{ choice.1 }}</option>
+    {% else %}
+      <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+    {% endif %}
+  {% endfor %}
+</select>

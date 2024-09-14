@@ -1,0 +1,55 @@
+{% load static %}
+
+
+<div id="{{ widget.attrs.id }}" class="form-group">
+    {% for value in widget.value %}
+        <div class="dynamic-text-widget input-group mb-2">
+            <input class="form-control" type="text" name="{{ widget.name }}" value="{{ value }}" placeholder="{{ widget.attrs.placeholder }}" id="id_{{ name }}_{{ forloop.counter }}" spellcheck={{ widget.attrs.spellcheck }}>
+            <button type="button" class="btn btn-sm btn-outline-secondary remove-dynamic-text" {% if not forloop.last %}style="display: none;"{% endif %}>&times;</button>
+        </div>
+    {% empty %}
+        <div class="input-group mb-3">
+            <input type="text" name="{{ name }}" value="" class="form-control" id="id_{{ name }}_1" />
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary add-text-button" type="button">{{ widget.add_text_button_text }}</button>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="text-center" id="add-new">
+        <button type="button" class="btn btn-primary add-dynamic-text">{{ widget.add_text_button_text }} <i class="fas fa-plus-circle"></i></button>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        function updateIds() {
+            const widgets = document.querySelectorAll('.dynamic-text-widget');
+            widgets.forEach((widget, index) => {
+                const input = widget.querySelector('input');
+                input.id = `id_{{ name }}_${index + 1}`;
+                input.name = `{{ widget.name }}`;
+                widget.querySelector('button.remove-dynamic-text').style.display = index === widgets.length - 1 ? 'inline-block' : 'none';
+            });
+        }
+
+        document.querySelector('.add-dynamic-text').addEventListener('click', function () {
+            const newInputGroup = document.createElement('div');
+            newInputGroup.className = 'dynamic-text-widget input-group mb-2';
+            newInputGroup.innerHTML = `
+                <input class="form-control" type="text" name="{{ widget.name }}" placeholder="{{ widget.attrs.placeholder }}" id="id_{{ name }}_new" spellcheck="{{ widget.attrs.spellcheck }}">
+                <button type="button" class="btn btn-sm btn-outline-secondary remove-dynamic-text">&times;</button>
+            `;
+            document.querySelector('#add-new').before(newInputGroup);
+            updateIds();
+        });
+
+        document.getElementById('{{ widget.attrs.id }}').addEventListener('click', function (event) {
+            if (event.target.classList.contains('remove-dynamic-text')) {
+                event.target.parentElement.remove();
+                updateIds();
+            }
+        });
+
+        updateIds();
+    });
+</script>
