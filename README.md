@@ -1,4 +1,4 @@
-# DJANGI FLEX WIDGET (it took me a while to think of that name)
+# DJANGI FLEX WIDGET
 Custom Duration and Dynamic Text Fields for Django Forms
 This project provides two custom fields and widgets for Django forms: a `DurationField` with a `DurationInput` widget and a `DynamicTextField` with a `DynamicTextWidget`. These fields allow for customizable form inputs, making it easier to handle duration values and dynamic multi-text inputs. 
 
